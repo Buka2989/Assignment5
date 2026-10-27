@@ -4,7 +4,7 @@ A Java 17 project for Assignment 5 in Software Design Patterns. It will compare 
 
 ## Current status
 
-The first step provides the Maven project and a validated delivery domain model. Route strategies, planning, comparison, and the console demonstration will be added in later commits.
+The project now includes the delivery domain model, the `RouteStrategy` interface, and the `RoutePlanner` context. Concrete route algorithms, comparison, and the console demonstration will be added in later commits.
 
 ## Requirements
 
@@ -27,3 +27,7 @@ Maven compiles with Java 17 language and bytecode compatibility through `maven.c
 - `DeliveryPriority` defines urgent, economy, eco, and standard requests.
 
 Invalid domain values are rejected when records are created. Route selection rules will be introduced with the strategies.
+
+## Strategy architecture
+
+`RoutePlanner` stores a `RouteStrategy` and delegates route selection to it. The strategy can be replaced through `setStrategy` while the planner object remains the same. Concrete strategies will implement the selection algorithms in later steps.

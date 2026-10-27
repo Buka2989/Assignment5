@@ -63,7 +63,7 @@ The diagrams are PlantUML source files and correspond to the Java classes in thi
 
 ## Tests
 
-`mvn test` runs 30 JUnit 5 tests. They cover all five strategies, configurable weights, route selection with traffic and cost formulas, automatic selection, runtime switching, strategy comparison, constraints, invalid domain values, empty routes, no suitable route, and boundary cases. The latest complete run passed with 30 tests, 0 failures, 0 errors, and 0 skipped.
+`mvn test` runs 32 JUnit 5 tests. They cover all five strategies, configurable weights, route selection with traffic and cost formulas, automatic selection, three runtime switches on one planner, strategy comparison, constraints, invalid domain values, empty routes, no suitable route, and exact budget and deadline boundaries. The latest complete run passed with 32 tests, 0 failures, 0 errors, and 0 skipped.
 
 ## Why Strategy
 

@@ -12,6 +12,7 @@ import com.assignment5.policy.RouteEvaluator;
 import com.assignment5.selector.StrategySelector;
 import com.assignment5.strategy.BalancedRouteStrategy;
 import com.assignment5.strategy.CheapestRouteStrategy;
+import com.assignment5.strategy.DistanceFirstRouteStrategy;
 import com.assignment5.strategy.EcoFriendlyRouteStrategy;
 import com.assignment5.strategy.FastestRouteStrategy;
 import com.assignment5.strategy.RouteStrategy;
@@ -27,7 +28,8 @@ public class Main {
         RouteStrategy cheapest = new CheapestRouteStrategy();
         RouteStrategy eco = new EcoFriendlyRouteStrategy();
         RouteStrategy balanced = new BalancedRouteStrategy(0.40, 0.30, 0.10, 0.20);
-        List<RouteStrategy> strategies = List.of(fastest, cheapest, eco, balanced);
+        RouteStrategy distanceFirst = new DistanceFirstRouteStrategy();
+        List<RouteStrategy> strategies = List.of(fastest, cheapest, eco, balanced, distanceFirst);
         DeliveryRequest standard = new DeliveryRequest(DeliveryPriority.STANDARD, 6000, 50, false);
 
         System.out.println("SMART DELIVERY ROUTE PLANNER");

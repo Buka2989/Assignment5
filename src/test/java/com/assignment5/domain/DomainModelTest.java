@@ -22,7 +22,7 @@ class DomainModelTest {
 
     @Test
     void routeStoresMeaningfulDeliveryData() {
-        Route route = new Route("R1", origin, destination, 12.5, 25, 2500, 1.8, 5, true);
+        Route route = new Route("R1", origin, destination, 12.5, 25, 2500, 100, 1.8, 5, true);
 
         assertEquals("R1", route.id());
         assertEquals(destination, route.destination());
@@ -32,15 +32,15 @@ class DomainModelTest {
     @Test
     void routeRejectsNegativeAndNonFiniteMeasurements() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Route("R1", origin, destination, -1, 25, 2500, 1.8, 5, true));
+                () -> new Route("R1", origin, destination, -1, 25, 2500, 100, 1.8, 5, true));
         assertThrows(IllegalArgumentException.class,
-                () -> new Route("R1", origin, destination, 12.5, 25, Double.NaN, 1.8, 5, true));
+                () -> new Route("R1", origin, destination, 12.5, 25, Double.NaN, 100, 1.8, 5, true));
     }
 
     @Test
     void routeRejectsMissingEndpoint() {
         assertThrows(NullPointerException.class,
-                () -> new Route("R1", origin, null, 12.5, 25, 2500, 1.8, 5, true));
+                () -> new Route("R1", origin, null, 12.5, 25, 2500, 100, 1.8, 5, true));
     }
 
     @Test

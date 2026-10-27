@@ -9,6 +9,7 @@ public record Route(
         double distanceKm,
         int estimatedMinutes,
         double baseCost,
+        double additionalFees,
         double carbonEmissionKg,
         int trafficDelayMinutes,
         boolean available
@@ -27,6 +28,9 @@ public record Route(
         }
         if (!Double.isFinite(baseCost) || baseCost < 0) {
             throw new IllegalArgumentException("Base cost must be non-negative and finite");
+        }
+        if (!Double.isFinite(additionalFees) || additionalFees < 0) {
+            throw new IllegalArgumentException("Additional fees must be non-negative and finite");
         }
         if (!Double.isFinite(carbonEmissionKg) || carbonEmissionKg < 0) {
             throw new IllegalArgumentException("Carbon emissions must be non-negative and finite");

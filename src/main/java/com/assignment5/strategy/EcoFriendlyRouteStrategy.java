@@ -8,6 +8,7 @@ import com.assignment5.policy.RouteEvaluation;
 import com.assignment5.policy.RouteEvaluator;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class EcoFriendlyRouteStrategy implements RouteStrategy {
     public static final double EMISSION_WEIGHT = 1.0;
@@ -20,9 +21,10 @@ public class EcoFriendlyRouteStrategy implements RouteStrategy {
                 .min(Comparator.comparingDouble(this::score)
                         .thenComparing(candidate -> candidate.route().id()))
                 .orElseThrow();
-        String explanation = "Emissions " + selected.route().carbonEmissionKg() + " kg x " + EMISSION_WEIGHT
-                + " + distance " + selected.route().distanceKm() + " km x " + DISTANCE_WEIGHT
-                + " = " + score(selected);
+        String explanation = String.format(Locale.ROOT,
+                "Emissions %.2f kg x %.2f + distance %.2f km x %.2f = %.3f",
+                selected.route().carbonEmissionKg(), EMISSION_WEIGHT,
+                selected.route().distanceKm(), DISTANCE_WEIGHT, score(selected));
         return new RouteDecision(selected.route(), getStrategyName(), score(selected),
                 explanation, evaluation.rejectedRoutes());
     }

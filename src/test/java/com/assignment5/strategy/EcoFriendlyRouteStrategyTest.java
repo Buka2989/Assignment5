@@ -26,7 +26,7 @@ class EcoFriendlyRouteStrategyTest {
 
         assertEquals("R2", decision.route().id());
         assertEquals(1.5, decision.score());
-        assertTrue(decision.explanation().contains("Emissions 1.0 kg"));
+        assertTrue(decision.explanation().contains("Emissions 1.00 kg"));
     }
 
     @Test

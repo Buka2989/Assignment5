@@ -29,9 +29,7 @@ public final class RouteEvaluator {
         for (Route route : routes) {
             Objects.requireNonNull(route, "Route list cannot contain null");
             int effectiveMinutes = Math.addExact(route.estimatedMinutes(), route.trafficDelayMinutes());
-            double surcharge = request.priority() == DeliveryPriority.URGENT ? URGENT_SURCHARGE : 0;
-            double totalCost = route.baseCost() + route.distanceKm() * COST_PER_KM
-                    + route.additionalFees() + surcharge;
+            double totalCost = totalCost(route, request);
             if (!Double.isFinite(totalCost)) {
                 throw new IllegalArgumentException("Calculated route cost must be finite");
             }
@@ -50,5 +48,13 @@ public final class RouteEvaluator {
             throw new NoSuitableRouteException("No route satisfies the request constraints: " + rejected);
         }
         return new RouteEvaluation(candidates, rejected);
+    }
+
+    public static double totalCost(Route route, DeliveryRequest request) {
+        Objects.requireNonNull(route, "Route is required");
+        Objects.requireNonNull(request, "Delivery request is required");
+        double surcharge = request.priority() == DeliveryPriority.URGENT ? URGENT_SURCHARGE : 0;
+        return route.baseCost() + route.distanceKm() * COST_PER_KM
+                + route.additionalFees() + surcharge;
     }
 }

@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+interface RouteStrategy <<Strategy>> {
+  +selectRoute(routes: List<Route>, request: DeliveryRequest): RouteDecision
+  +getStrategyName(): String
+}
+
+class RoutePlanner <<Context>> {
+  -strategy: RouteStrategy
+  +RoutePlanner(strategy: RouteStrategy)
+  +setStrategy(strategy: RouteStrategy): void
+  +plan(routes: List<Route>, request: DeliveryRequest): RouteDecision
+}
+
+class FastestRouteStrategy <<Concrete Strategy>>
+class CheapestRouteStrategy <<Concrete Strategy>>
+class EcoFriendlyRouteStrategy <<Concrete Strategy>>
+class BalancedRouteStrategy <<Concrete Strategy>> {
+  -timeWeight: double
+  -costWeight: double
+  -distanceWeight: double
+  -emissionWeight: double
+}
+class DistanceFirstRouteStrategy <<Concrete Strategy>>
+
+class StrategySelector {
+  -strategies: Map<DeliveryPriority, RouteStrategy>
+  +select(request: DeliveryRequest): RouteStrategy
+}
+class StrategyComparison {
+  -strategies: List<RouteStrategy>
+  +compare(routes: List<Route>, request: DeliveryRequest): List<RouteDecision>
+}
+class RouteEvaluator {
+  +evaluate(routes: List<Route>, request: DeliveryRequest): RouteEvaluation
+  +totalCost(route: Route, request: DeliveryRequest): double
+}
+class RouteEvaluation
+class RouteCandidate
+class RouteDecision
+class Route
+class Location
+class DeliveryRequest
+enum DeliveryPriority
+class NoSuitableRouteException
+
+RouteStrategy <|.. FastestRouteStrategy
+RouteStrategy <|.. CheapestRouteStrategy
+RouteStrategy <|.. EcoFriendlyRouteStrategy
+RouteStrategy <|.. BalancedRouteStrategy
+RouteStrategy <|.. DistanceFirstRouteStrategy
+RoutePlanner o-- RouteStrategy : delegates to
+StrategySelector o-- RouteStrategy : maps priorities
+StrategyComparison o-- RouteStrategy : executes all
+RouteStrategy ..> RouteEvaluator : filters candidates
+RouteStrategy ..> RouteDecision : returns
+RouteEvaluator ..> RouteEvaluation : creates
+RouteEvaluator ..> NoSuitableRouteException : throws
+RouteEvaluation o-- RouteCandidate
+RouteCandidate --> Route
+RouteDecision --> Route
+Route --> Location : origin and destination
+DeliveryRequest --> DeliveryPriority
+@enduml

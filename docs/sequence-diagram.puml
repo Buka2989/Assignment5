@@ -1,0 +1,20 @@
+@startuml
+actor Client
+participant StrategySelector
+participant RoutePlanner
+participant FastestRouteStrategy
+participant RouteEvaluator
+participant RouteDecision
+
+Client -> StrategySelector : select(urgentRequest)
+StrategySelector --> Client : fastestStrategy
+Client -> RoutePlanner : setStrategy(fastestStrategy)
+Client -> RoutePlanner : plan(routes, urgentRequest)
+RoutePlanner -> FastestRouteStrategy : selectRoute(routes, urgentRequest)
+FastestRouteStrategy -> RouteEvaluator : evaluate(routes, urgentRequest)
+RouteEvaluator --> FastestRouteStrategy : eligible candidates and rejections
+FastestRouteStrategy -> RouteDecision : create(selected route, score, explanation)
+RouteDecision --> FastestRouteStrategy : decision
+FastestRouteStrategy --> RoutePlanner : decision
+RoutePlanner --> Client : decision
+@enduml
